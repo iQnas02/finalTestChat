@@ -28,7 +28,7 @@ function Navbar() {
                 <>
                     <Link to="/profile">Profile</Link>
                     <Link to="/all-users">All Users</Link>
-                    <Link to="/conversations">Conversations</Link>
+                    <Link to="/chat/conversations">Conversations</Link>
                     <button onClick={handleLogout}>Logout</button>
                 </>
             ) : (
