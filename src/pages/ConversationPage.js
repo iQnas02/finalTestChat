@@ -12,20 +12,7 @@ function ConversationPage() {
     const [newMessage, setNewMessage] = useState('');
 
     useEffect(() => {
-        const fetchMessages = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/chat/conversations/${conversationId}/messages`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                if (response.data.success) {
-                    setMessages(response.data.data);
-                } else {
-                    console.error('Failed to fetch messages:', response.data.message);
-                }
-            } catch (err) {
-                console.error('Error fetching messages:', err);
-            }
-        };
+
 
         fetchMessages();
     }, [conversationId, token]);
@@ -37,14 +24,18 @@ function ConversationPage() {
         }
 
         try {
-            const response = await axios.post(`${API_URL}/chat/conversations/${conversationId}/message`, {
-                text: newMessage
+
+            const response = await axios.post(`${API_URL}/chat/conversationsa/${conversationId}/message`, {
+                text: newMessage.toString(),
+
+
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
             if (response.data.success) {
-                setMessages(prevMessages => [...prevMessages, response.data.data]);
+                // setMessages(prevMessages => [...prevMessages, response.data.data]);
+                fetchMessages()
                 setNewMessage('');
 
             } else {
@@ -54,7 +45,20 @@ function ConversationPage() {
             console.error('Error sending message:', err);
         }
     };
-
+    const fetchMessages = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/chat/conversations/${conversationId}/messages`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (response.data.success) {
+                setMessages(response.data.data);
+            } else {
+                console.error('Failed to fetch messages:', response.data.message);
+            }
+        } catch (err) {
+            console.error('Error fetching messages:', err);
+        }
+    };
     return (
         <div>
             <h2>Conversation</h2>
