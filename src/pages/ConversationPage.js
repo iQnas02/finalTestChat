@@ -60,8 +60,25 @@ function ConversationPage() {
             <h2>Conversation</h2>
             <div className="messages">
                 {messages.map((message, index) => (
-                    <div key={index} className="message">
+                    <div key={index} className="message"
+                         style={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
+                        <img
+                            src={message.sender.image}
+                            alt={`${message.sender.username}'s profile`}
+                            style={{width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px'}}
+                        />
                         <strong>{message.sender.username}</strong>: {message.text}
+                        <div className="message-time"
+                        style={{marginLeft: '10px', marginRight: '10px'}}>
+                            {new Date(message.createdAt).toLocaleString('lt-LT', {
+                                year: 'numeric',
+                                month: 'numeric',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                second: 'numeric'
+                            })}
+                        </div>
                     </div>
                 ))}
             </div>
