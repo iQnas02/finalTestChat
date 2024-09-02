@@ -29,13 +29,24 @@ const AllUsersPage = () => {
     return (
         <div>
             <h2>All Users</h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div style={{display: 'flex', flexWrap: 'wrap'}}>
                 {users.map((user) => (
-                    <div key={user._id} style={{ margin: '10px', border: '1px solid #ddd', padding: '10px', borderRadius: '8px', width: '200px' }}>
-                        <img src={user.image} alt={user.username} style={{ width: '100%', borderRadius: '8px' }} />
+                    <Link
+                        to={`/users/${user.username}`}
+                        key={user._id}
+                        style={{
+                            margin: '10px',
+                            border: '1px solid #ddd',
+                            padding: '10px',
+                            borderRadius: '8px',
+                            width: '200px',
+                            textDecoration: 'none',
+                            color: 'inherit'
+                        }}
+                    >
+                        <img src={user.image} alt={user.username} style={{width: '100%', borderRadius: '8px'}}/>
                         <h3>{user.username}</h3>
-                        <Link to={`/users/${user.username}`}>View Profile</Link>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>
