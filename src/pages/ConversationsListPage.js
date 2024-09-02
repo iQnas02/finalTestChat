@@ -28,6 +28,22 @@ function ConversationsListPage() {
         fetchConversations();
     }, [token]);
 
+    const handleDeleteConversation = async (conversationId) => {
+        try {
+            const response = await axios.delete(`${API_URL}/chat/conversations/${conversationId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data.success) {
+                // Update the conversation list after deletion
+                setConversations(conversations.filter(conversation => conversation._id !== conversationId));
+            } else {
+                console.error('Failed to delete conversation:', response.data.message);
+            }
+        } catch (err) {
+            console.error('Error deleting conversation:', err);
+        }
+    };
     return (
         <div>
             <h2>Your Conversations</h2>
@@ -37,6 +53,9 @@ function ConversationsListPage() {
                         <Link to={`/chat/conversations/${conversation._id}/messages`}>
                             {conversation.title || 'Unnamed Conversation'}
                         </Link>
+                        <button onClick={() => handleDeleteConversation(conversation._id)} style={{marginLeft: '10px'}}>
+                            Delete
+                        </button>
                     </li>
                 ))}
             </ul>

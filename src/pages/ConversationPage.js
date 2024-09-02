@@ -55,12 +55,17 @@ function ConversationPage() {
             if (response.data.success) {
                 fetchMessages(); // Refresh messages after liking
             } else {
-                console.error('Failed to like/unlike message:', response.data.message);
+                if (response.data.message === "You cannot like your own message") {
+                    console.warn("You cannot like your own message");
+                } else {
+                    console.error('Failed to like/unlike message:', response.data.message);
+                }
             }
         } catch (err) {
             console.error('Error liking message:', err);
         }
     };
+
 
 
     const fetchMessages = async () => {
