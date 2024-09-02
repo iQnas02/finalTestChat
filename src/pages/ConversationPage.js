@@ -45,6 +45,24 @@ function ConversationPage() {
             console.error('Error sending message:', err);
         }
     };
+
+    const handleLikeMessage = async (messageId) => {
+        try {
+            const response = await axios.post(`${API_URL}/chat/conversations/${conversationId}/messages/${messageId}/like`, {}, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data.success) {
+                fetchMessages(); // Refresh messages after liking
+            } else {
+                console.error('Failed to like/unlike message:', response.data.message);
+            }
+        } catch (err) {
+            console.error('Error liking message:', err);
+        }
+    };
+
+
     const fetchMessages = async () => {
         try {
             const response = await axios.get(`${API_URL}/chat/conversations/${conversationId}/messages`, {
@@ -73,7 +91,7 @@ function ConversationPage() {
                         />
                         <strong>{message.sender.username}</strong>: {message.text}
                         <div className="message-time"
-                        style={{marginLeft: '10px', marginRight: '10px'}}>
+                             style={{marginLeft: '10px', marginRight: '10px'}}>
                             {new Date(message.createdAt).toLocaleString('lt-LT', {
                                 year: 'numeric',
                                 month: 'numeric',
@@ -83,6 +101,10 @@ function ConversationPage() {
                                 second: 'numeric'
                             })}
                         </div>
+                        <button onClick={() => handleLikeMessage(message._id)}>
+                            {message.likedBy.includes(token.userId) ? 'Unlike' : 'Like'}
+                        </button>
+                        <span>{message.likedBy.length} Likes</span>
                     </div>
                 ))}
             </div>
