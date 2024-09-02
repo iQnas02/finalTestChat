@@ -23,7 +23,7 @@ function Navbar() {
 
     return (
         <nav>
-            <Link to="/">Home</Link>
+
             {user ? (
                 <>
                     <Link to="/profile">Profile</Link>
